@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { formatDate } from './../utilities/utility';
+import useToDoContext from '../hooks/useToDoContext';
 
 const ToDoTable = () => {
-  const [toDoList, setToDoList] = useState([]);
-  const [metrics, setMetrics] = useState({});
-
+  
+    const { toDoList, setToDoList, setMetrics } = useToDoContext();
 
   useEffect(() => {
     fetch("http://localhost:9090/todo",  {
@@ -82,7 +82,7 @@ const ToDoTable = () => {
                     <input type='checkbox' onClick={(e) => checkTaskAsDone(e, toDoRecord.id)}/>
                     <div>{toDoRecord.text}</div>
                     <div>{toDoRecord.priority}</div>
-                    <div>{formatDate(toDoRecord.dueDate)}</div>
+                    <div>{toDoRecord.dueDate}</div>
                     <div>
                         <button>Edit</button>
                         {" "}/{" "} 
@@ -91,8 +91,6 @@ const ToDoTable = () => {
                 </div>
             ))}
         </div>
-
-
     </>
   )
 }

@@ -1,15 +1,26 @@
-import { useState } from 'react'
-import './App.css'
-import ToDoTable from './components/ToDoTable'
+import { useState } from 'react';
+import './App.css';
+import ToDoTable from './components/ToDoTable';
+import { ToDoProvider } from './context/ToDoProvider';
+import Filters from './components/Filters';
+import Metrics from './components/Metrics';
+import NewToDo from './components/NewToDo';
+import CreateTodoModal from './components/CreateTodoModal';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <ToDoTable />
-    </>
+    
+      <ToDoProvider>
+        <div className='m-12'>
+          <Filters />
+          <NewToDo />
+          <ToDoTable />
+          <Metrics />
+        </div>
+    </ToDoProvider>
+    
+    
   )
 }
 
-export default App
+export default App;
