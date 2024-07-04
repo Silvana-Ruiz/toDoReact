@@ -13,11 +13,13 @@ const ToDoProvider = ( {children} ) => {
     const [toDoList, setToDoList] = useState([]);
     const [metrics, setMetrics] = useState(emptyMetrics);
     const [showCreationModal, setShowCreationModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [editId, setEditId] = useState('');
 
     const openCloseCreationModal = (e) => {
         e.preventDefault();
         setShowCreationModal(!showCreationModal);
-      }
+    }
 
     return (
         <ToDoContext.Provider
@@ -28,7 +30,11 @@ const ToDoProvider = ( {children} ) => {
                 metrics,
                 setShowCreationModal,
                 showCreationModal,
-                openCloseCreationModal
+                openCloseCreationModal,
+                setShowEditModal,
+                showEditModal,
+                setEditId,
+                editId
             }} // Object
         >
             {children}
