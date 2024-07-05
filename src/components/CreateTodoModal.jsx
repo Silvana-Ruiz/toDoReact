@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import useToDoContext from '../hooks/useToDoContext';
 
 const CreateTodoModal = () => {
-  const { toDoList, setToDoList, setShowCreationModal, openCloseCreationModal} = useToDoContext();
+  const { toDoList, setToDoList, setShowCreationModal, openCloseCreationModal, calculatePages, onClickChangePage, currPage} = useToDoContext();
   const emptyToDo = {
     text: "",
     priority: "",
@@ -10,7 +10,7 @@ const CreateTodoModal = () => {
   };
   const [ newToDo, setNewToDo ] = useState(emptyToDo);
   const [ error, setError] = useState("");
-  
+
 
   const onClickUpdateToDo = (e) => {
     setNewToDo({
@@ -45,6 +45,8 @@ const CreateTodoModal = () => {
         
         const data = await response.json();
         setToDoList([...toDoList, data]);
+        calculatePages();
+        onClickChangePage(1);
     } catch (error) {
         console.error('Error:', error);
     }

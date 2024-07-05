@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { formatDate } from './../utilities/utility';
 import useToDoContext from '../hooks/useToDoContext';
 import EditToDoModal from './EditToDoModal';
+import Pagination from './Pagination';
 
 const ToDoTable = () => {
   
@@ -12,27 +13,82 @@ const ToDoTable = () => {
     showEditModal,
     setShowEditModal,
     editId,
-    setEditId
+    setEditId,
+    paginatedToDoList,
+    setFilteredToDoList,
+    setPaginatedToDoList,
+    calculatePages, 
+    onClickChangePage, 
+    currPage,
     } = useToDoContext();
+
     useEffect(() => {
-        fetch("http://localhost:9090/todo",  {
+        getAllToDos();  
+        getFilteredToDos();    
+    }, []);
+
+      useEffect(() => {
+        
+        calculatePages();
+        onClickChangePage(currPage);
+        
+    }, [toDoList]);
+
+    const paginateFilteredToDos = () => {
+        fetch("http://localhost:9090/todo/pagination?page=1&size=3",  {
             method: 'GET',
             headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            }})
+            .then(response => response.json())
+            .then(data1 => {
+                setPaginatedToDoList(data1);
+                console.log('paginated filtered to dos', data1);
+                
+                
+            })
+            .catch(error => console.error('Error:', error));
+            
+    }
+
+    const getFilteredToDos = () => {
+
+        fetch('http://localhost:9090/todo?text=&state=All&priority=All',  {
+            method: 'GET',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
             }})
         .then(response => response.json())
         .then(data => {
-            setToDoList(data);
-            console.log(toDoList);
+            console.log('filtered', data);
+            setFilteredToDoList(data);
+            paginateFilteredToDos();
+
+           
         })
         .catch(error => console.error('Error:', error));
-        
-    }, []);
 
-    useEffect(() => {
-        console.log(toDoList);
-    }, [toDoList]);
+      }
+
+      const getAllToDos = () => {
+
+        fetch('http://localhost:9090/todo?text=&state=All&priority=All',  {
+            method: 'GET',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            }})
+        .then(response => response.json())
+        .then(data => {
+            console.log('filtered', data);
+            setToDoList(data);
+           
+        })
+        .catch(error => console.error('Error:', error));
+
+      }
 
     const checkTaskAsDone = (e, id) => {
         let url = `http://localhost:9090/todo/${id}/undone`;
@@ -65,6 +121,8 @@ const ToDoTable = () => {
         .then(response => response.json())
         .then(data => {
             setToDoList(data);
+            calculatePages();
+            onClickChangePage(currPage);
         })
         .catch(error => console.error('Error:', error));
     }
@@ -93,7 +151,7 @@ const ToDoTable = () => {
                 <div>Actions</div>
             </div>
             <div >
-                {toDoList.map(toDoRecord => (
+                {(paginatedToDoList.length) && paginatedToDoList.map(toDoRecord => (
                     <div className='grid grid-cols-5' key={toDoRecord.id}>
                         <input type='checkbox' onClick={(e) => checkTaskAsDone(e, toDoRecord.id)}/>
                         <div>{toDoRecord.text}</div>
@@ -107,6 +165,7 @@ const ToDoTable = () => {
                     </div>
                 ))}
             </div>
+            <Pagination />
         </>
     )
 }

@@ -8,7 +8,13 @@ const emptyFilter = {
 };
 
 const Filters = () => {
-    const { toDoList, setToDoList } = useToDoContext();
+    const { 
+        toDoList,
+        setToDoList,
+        filteredToDoList,
+        setFilteredToDoList,
+        paginatedToDoList,
+        setPaginatedToDoList } = useToDoContext();
 
   const [ searchFilter, setSearchFilter ] = useState(emptyFilter);
 
@@ -19,7 +25,7 @@ const Filters = () => {
     });
   }
 
-  const getFilteredToDos = () => {
+  const getFilteredToDos =  () => {
     const { text, priority, state } = searchFilter;
     fetch(`http://localhost:9090/todo?text=${text}&state=${state}&priority=${priority}`,  {
         method: 'GET',
@@ -29,8 +35,20 @@ const Filters = () => {
         }})
     .then(response => response.json())
     .then(data => {
-        setToDoList(data);
-        console.log('filtered', toDoList);
+        console.log('filtered', data);
+        setFilteredToDoList(data);
+        fetch("http://localhost:9090/todo/pagination?page=1&size=3",  {
+            method: 'GET',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            }})
+            .then(response => response.json())
+            .then(data1 => {
+                setPaginatedToDoList(data1);
+                console.log('paginated filtered to dos', data1);
+            })
+            .catch(error => console.error('Error:', error));
     })
     .catch(error => console.error('Error:', error));
   }
