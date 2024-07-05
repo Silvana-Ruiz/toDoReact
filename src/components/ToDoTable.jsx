@@ -63,8 +63,8 @@ const ToDoTable = () => {
         .then(response => response.json())
         .then(data => {
             console.log('filtered', data);
-            setFilteredToDoList(data);
-            paginateFilteredToDos();
+            // setFilteredToDoList(data);
+            // paginateFilteredToDos();
 
            
         })
@@ -121,8 +121,8 @@ const ToDoTable = () => {
         .then(response => response.json())
         .then(data => {
             setToDoList(data);
-            calculatePages();
-            onClickChangePage(currPage);
+            // calculatePages();
+            // onClickChangePage(1);
         })
         .catch(error => console.error('Error:', error));
     }

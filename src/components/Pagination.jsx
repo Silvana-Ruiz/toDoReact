@@ -7,12 +7,12 @@ const Pagination = () => {
     // const [ currPage, setCurrPage ] = useState(-1);
 
 
-    useEffect(() => {
+    // useEffect(() => {
         
-        calculatePages();
-        onClickChangePage(currPage);
+    //     calculatePages();
+    //     onClickChangePage(currPage);
         
-    }, [toDoList, filteredToDoList]);
+    // }, [toDoList]);
 
     // useEffect(() => {
     //     console.log('from cpagination')
