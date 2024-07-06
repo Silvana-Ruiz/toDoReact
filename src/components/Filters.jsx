@@ -62,7 +62,7 @@ const Filters = () => {
                 name='text' 
                 value={searchFilter.text} 
                 onChange={updateSearchFilter} 
-                className='border col-start-2 col-end-9 w-11/12 mt-10 mb-5 py-2 px-1 border-gray-300 rounded-md'
+                className='bg-gray-50 border col-start-2 col-end-9 w-11/12 mt-10 mb-5 py-2 px-1 border-gray-300 rounded-md'
             />
       
 
@@ -73,7 +73,7 @@ const Filters = () => {
                     name='priority' 
                     value={searchFilter.priority} 
                     onChange={updateSearchFilter} 
-                    className='border row-start-2 col-start-2 col-end-5 mb-5 py-2 border-gray-300 rounded-md'
+                    className='bg-gray-50 border row-start-2 col-start-2 col-end-5 mb-5 py-2 border-gray-300 rounded-md'
                 >
                     <option value='All' selected>All</option>
                     <option value='High'>High</option>
@@ -88,7 +88,7 @@ const Filters = () => {
                 name='state' 
                 value={searchFilter.state} 
                 onChange={updateSearchFilter}
-                className='border row-start-3 col-start-2 col-end-5 mb-5 py-2 border-gray-300 rounded-md'
+                className='bg-gray-50 border row-start-3 col-start-2 col-end-5 mb-5 py-2 border-gray-300 rounded-md'
             >
                 <option value='All' selected>All</option>
                 <option value='Done'>Done</option>
@@ -96,7 +96,7 @@ const Filters = () => {
             </select>
      
         <button 
-            className='row-start-3 col-start-7 border mb-5 py-1 bg-purple rounded-md active:bg-violet'
+            className='row-start-3 col-start-7 col-end-9 w-36 ml-20 border mb-5 py-1 bg-custompurple rounded-md active:bg-customviolet'
             onClick={getFilteredToDos}
         >
             Search

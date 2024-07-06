@@ -9,10 +9,12 @@ export default {
       colors: {
         'darkgrey': '#30343F',
         'lightgrey': '#FAFAFF',
-        'purple': '#E4D9FF',
+        'custompurple': '#E4D9FF',
         'navy': '#273469',
         'darknavy': '#1E2749',
-        'violet': '#6f73d3',
+        'customviolet': '#6f73d3',
+        'lightercustomviolet': '#a8abed',
+        'lightercustomred': '#eda8af',
 
       },
     }

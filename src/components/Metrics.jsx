@@ -5,7 +5,7 @@ const Metrics = () => {
 const { metrics } = useToDoContext();
 const { averageTimeTotal, averageTimeLowTasks, averageTimeMediumTasks, averageTimeHighTasks } = metrics;
   return (
-    <div className='grid grid-cols-2 my-9'>
+    <div className='grid grid-cols-2 my-10 border bg-white rounded-2xl shadow-inner px-12 py-10'>
         <div className='justify-self-center'>
             <p>Average time to finish tasks:</p>
             <p>{averageTimeTotal}</p>

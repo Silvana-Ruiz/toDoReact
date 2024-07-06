@@ -61,12 +61,12 @@ const Pagination = () => {
 
     return (
         <>
-        <div className='flex'>
+        <div className='flex justify-center py-2 gap-4'>
             {/* <button onClick={() => onClickChangePage(1)}>{1}</button>
             <button onClick={() => onClickChangePage(2)}>{2}</button>
             <button onClick={() => onClickChangePage(3)}>{3}</button> */}
             {pageNumbers.length != 0 && pageNumbers.map((pageNum) => (
-                <button key={pageNum} onClick={() => onClickChangePage(pageNum)}>{pageNum}</button>
+                <button key={pageNum} className={`px-1 ${pageNum == currPage && 'bg-customviolet rounded-sm text-white'}`} onClick={() => onClickChangePage(pageNum)}>{pageNum}</button>
             ))}
         </div>
         </>
