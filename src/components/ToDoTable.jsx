@@ -136,7 +136,6 @@ const ToDoTable = () => {
     return (
         <>
             {showEditModal && <EditToDoModal/>}
-            <h1>ToDoTable</h1>
             <div className='grid grid-cols-5'>
                 <div>Checkbox</div>
                 <div>Name</div>

@@ -54,36 +54,53 @@ const Filters = () => {
   }
 
   return (
-    <div className='grid grid-cols-7 gap-4 grid-rows-3'>
-        <div className='row-span-1'>
-            <label>Name</label>
+    <div className='grid flex-col grid-cols-8 my-10 border bg-white rounded-2xl shadow-inner'>
+        
+            <label className='text-left ml-12 my-10'>Name</label>
             <input 
                 type='text' 
                 name='text' 
                 value={searchFilter.text} 
                 onChange={updateSearchFilter} 
-                className='col-start-2 col-end-7'
+                className='border col-start-2 col-end-9 w-11/12 mt-10 mb-5 py-2 px-1 border-gray-300 rounded-md'
             />
-        </div>
+      
 
-        <div className='row-span-2'>
-            <label>Priority</label>
-            <select name='priority' value={searchFilter.priority} onChange={updateSearchFilter} >
-                <option value='All' selected>All</option>
-                <option value='High'>High</option>
-                <option value='Medium'>Medium</option>
-                <option value='Low'>Low</option>
-            </select>
-        </div>
-        <div className='row-span-3'>
-            <label>State</label>
-            <select name='state' value={searchFilter.state} onChange={updateSearchFilter} >
+        
+            <label className='text-left row-start-2 ml-12 mb-5'>Priority</label>
+           
+                <select 
+                    name='priority' 
+                    value={searchFilter.priority} 
+                    onChange={updateSearchFilter} 
+                    className='border row-start-2 col-start-2 col-end-5 mb-5 py-2 border-gray-300 rounded-md'
+                >
+                    <option value='All' selected>All</option>
+                    <option value='High'>High</option>
+                    <option value='Medium'>Medium</option>
+                    <option value='Low'>Low</option>
+                </select>
+         
+
+      
+            <label className='text-left row-start-3 ml-12 mb-5'>State</label>
+            <select 
+                name='state' 
+                value={searchFilter.state} 
+                onChange={updateSearchFilter}
+                className='border row-start-3 col-start-2 col-end-5 mb-5 py-2 border-gray-300 rounded-md'
+            >
                 <option value='All' selected>All</option>
                 <option value='Done'>Done</option>
                 <option value='Undone'>Undone</option>
             </select>
-        </div>
-        <button onClick={getFilteredToDos}>Search</button>
+     
+        <button 
+            className='row-start-3 col-start-7 border mb-5 py-1 bg-purple rounded-md active:bg-violet'
+            onClick={getFilteredToDos}
+        >
+            Search
+        </button>
  </div>
   )
 }

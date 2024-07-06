@@ -61,7 +61,6 @@ const Pagination = () => {
 
     return (
         <>
-        <p>pagination</p>
         <div className='flex'>
             {/* <button onClick={() => onClickChangePage(1)}>{1}</button>
             <button onClick={() => onClickChangePage(2)}>{2}</button>
