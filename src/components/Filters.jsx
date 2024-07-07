@@ -54,12 +54,13 @@ const Filters = () => {
   }
 
   return (
-    <div className='grid flex-col grid-cols-8 my-10 border bg-white rounded-2xl shadow-inner'>
+    <div className='grid flex-col grid-cols-8 my-10 border bg-white rounded-2xl shadow-md'>
         
             <label className='text-left ml-12 my-10'>Name</label>
             <input 
                 type='text' 
                 name='text' 
+                placeholder='To Do'
                 value={searchFilter.text} 
                 onChange={updateSearchFilter} 
                 className='bg-gray-50 border col-start-2 col-end-9 w-11/12 mt-10 mb-5 py-2 px-1 border-gray-300 rounded-md'
@@ -96,7 +97,7 @@ const Filters = () => {
             </select>
      
         <button 
-            className='row-start-3 col-start-7 col-end-9 w-36 ml-20 border mb-5 py-1 bg-custompurple rounded-md active:bg-customviolet'
+            className='row-start-3 col-start-7 col-end-9 w-36 ml-20 mb-5 py-1 text-white bg-customviolet rounded-md active:bg-activebutton shadow-md font-medium'
             onClick={getFilteredToDos}
         >
             Search

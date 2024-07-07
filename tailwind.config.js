@@ -12,9 +12,11 @@ export default {
         'custompurple': '#E4D9FF',
         'navy': '#273469',
         'darknavy': '#1E2749',
-        'customviolet': '#6f73d3',
+        'customviolet': '#626499',
+        'darkcustomviolet': '#626499',
         'lightercustomviolet': '#a8abed',
         'lightercustomred': '#eda8af',
+        'activebutton': '#54556e',
 
       },
     }

@@ -65,7 +65,7 @@ const CreateTodoModal = () => {
             
                 <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
             
-                    <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                    <div className="flex items-center justify-between p-5 pb-0  rounded-t dark:border-gray-600">
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                             Add a New To Do
                         </h3>
@@ -106,7 +106,7 @@ const CreateTodoModal = () => {
                                 name="dueDate" 
                                 value={newToDo.dueDate}
                                 onChange={onClickUpdateToDo}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date" 
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date" 
                             />
                         </div>
 
@@ -127,15 +127,15 @@ const CreateTodoModal = () => {
                             </div>
                         </div>
                         <div
-                             className="text-white inline-flex justify-end bg-customviolet hover:bg-customlightpurple focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                             className="text-white flex justify-end hover:bg-customlightpurple focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                         >
                             <button 
                                 type='button'
                                 onClick={createToDo}
-                        
+                                className='bg-customviolet px-5 py-2.5 rounded-md font-medium shadow-md active:bg-activebutton'
                             >
                               
-                                <p>Create</p>
+                                Create
                             </button>
                         </div>
                     </form>

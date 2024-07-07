@@ -134,9 +134,9 @@ const ToDoTable = () => {
     }
 
     return (
-        <div className='my-10 border bg-white rounded-2xl shadow-inner px-12 py-10'>
+        <div className='my-10 border bg-white rounded-2xl px-12 py-10 shadow-md'>
             {showEditModal && <EditToDoModal/>}
-            <div className='grid grid-cols-5 border-b-2 py-2 bg-violet-50 rounded-t-md'>
+            <div className='grid grid-cols-5 border-b-2 py-2  bg-custompurple rounded-t-md'>
                 <input type='checkbox' className='accent-customviolet w-5 justify-self-center' />
                 <div>Name</div>
                 <div className='flex'>
@@ -167,14 +167,14 @@ const ToDoTable = () => {
                         <div className='flex gap-2'>
                             <button 
                                 onClick={(e) => updateToDo(e, toDoRecord.id)}
-                                className='bg-custompurple rounded-md p-1 w-16 active:bg-customviolet'
+                                className='rounded-md p-1 w-16 text-white  bg-customviolet  active:bg-activebutton font-medium'
                             >
                                 Edit
                             </button>
                         
                             <button 
                                 onClick={(e) => deleteToDo(e, toDoRecord.id)}
-                                className='bg-lightercustomred rounded-md p-1 w-16 active:bg-customviolet'
+                                className='bg-red-500 text-white rounded-md p-1 px-5 text-center  w-auto active:bg-red-600 font-medium shadow-md'
                             >
                                 Delete
                             </button>

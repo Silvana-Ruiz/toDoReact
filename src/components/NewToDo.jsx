@@ -8,7 +8,7 @@ const NewToDo = () => {
     <>
         <button 
           onClick={openCloseCreationModal}
-          className='w-36 border mb-5 py-2 bg-custompurple rounded-md active:bg-customviolet'
+          className='w-36 mb-5 py-2 text-white bg-customviolet rounded-md active:bg-activebutton shadow-md font-medium'
         >
           + New To Do
         </button>
