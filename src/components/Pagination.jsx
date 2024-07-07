@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import useToDoContext from '../hooks/useToDoContext';
 
 const Pagination = () => {
-    const { toDoList, paginatedToDoList, setPaginatedToDoList, filteredToDoList, calculatePages, onClickChangePage, currPage, pageNumbers} = useToDoContext();
+    const { toDoList, paginatedToDoList, setPaginatedToDoList, filteredToDoList, calculatePages, onClickChangePage, currPage, pageNumbers, setPageNumbers, stateNumPages} = useToDoContext();
     // const [ pageNumbers, setPageNumbers ] = useState([]);
     // const [ currPage, setCurrPage ] = useState(-1);
 
@@ -58,15 +58,40 @@ const Pagination = () => {
     //         .catch(error => console.error('Error:', error));
     // }
 
+    // let elements = [];
+    // useEffect(() => {
+        
+
+    //     // Loop through items using a for loop
+    //     for (let i = 1; i <= stateNumPages; i++) {
+        
+    //         // Create JSX element and push to array
+    //         elements.push(
+    //         <div>
+    //             <button key={i} className={`px-1 ${i == currPage && 'bg-customviolet rounded-sm text-white'}`} onClick={() => onClickChangePage(i)}>{i}</button>
+    //         </div>
+    //         );
+    //     }
+    // }, [stateNumPages])
+ 
+    useEffect(() => {
+        const arr = [];
+        for (let i = 1; i <= stateNumPages; i++) {
+            arr.push(i);
+        }
+        setPageNumbers([...arr])
+        console.log('pageNumbers', pageNumbers);
+    }, [stateNumPages]);
+
+    
+
+
 
     return (
         <>
         <div className='flex justify-center py-2 gap-4'>
-            {/* <button onClick={() => onClickChangePage(1)}>{1}</button>
-            <button onClick={() => onClickChangePage(2)}>{2}</button>
-            <button onClick={() => onClickChangePage(3)}>{3}</button> */}
             {pageNumbers.length != 0 && pageNumbers.map((pageNum) => (
-                <button key={pageNum} className={`px-1 ${pageNum == currPage && 'bg-customviolet rounded-sm text-white'}`} onClick={() => onClickChangePage(pageNum)}>{pageNum}</button>
+                <button key={pageNum} className={`px-1 ${pageNum == currPage && 'bg-customviolet rounded-sm text-white'}`} onClick={() => onClickChangePage(pageNum )}>{pageNum }</button>
             ))}
         </div>
         </>

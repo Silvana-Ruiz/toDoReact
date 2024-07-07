@@ -82,7 +82,6 @@ const ToDoTable = () => {
             }})
         .then(response => response.json())
         .then(data => {
-            console.log('filtered', data);
             setToDoList(data);
            
         })
@@ -104,7 +103,6 @@ const ToDoTable = () => {
         .then(response => response.json())
         .then(data => {
             setMetrics(data);
-            console.log(data);
         })
         .catch(error => console.error('Error:', error));
     }
@@ -130,7 +128,6 @@ const ToDoTable = () => {
         e.preventDefault();
         setShowEditModal(!showEditModal);
         setEditId(id);
-        console.log('desde editToDo', editId)
     }
 
     return (
@@ -152,7 +149,7 @@ const ToDoTable = () => {
                 <div>Actions</div>
             </div>
             <div >
-                {(paginatedToDoList.length) && paginatedToDoList.map(toDoRecord => (
+                {(paginatedToDoList.length != 0) ? ( paginatedToDoList.map(toDoRecord => (
                     <div className='grid grid-cols-5 py-2 border-b-2' key={toDoRecord.id}>
                         <input 
                             type='checkbox' 
@@ -180,7 +177,9 @@ const ToDoTable = () => {
                             </button>
                         </div>
                     </div>
-                ))}
+                ))) : (
+                    <p className='text-center mt-6 text-neutral-300 text-bold text-2xl'>Yay! No to do's</p>
+                )}
             </div>
             <Pagination />
         </div>

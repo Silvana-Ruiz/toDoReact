@@ -1,11 +1,7 @@
 import { useState } from 'react';
 import useToDoContext from '../hooks/useToDoContext';
 
-const emptyFilter = {
-    text: '',
-    priority: 'All',
-    state: 'All'
-};
+
 
 const Filters = () => {
     const { 
@@ -14,9 +10,12 @@ const Filters = () => {
         filteredToDoList,
         setFilteredToDoList,
         paginatedToDoList,
-        setPaginatedToDoList } = useToDoContext();
+        setPaginatedToDoList,
+        searchFilter,
+         setSearchFilter
+    } = useToDoContext();
 
-  const [ searchFilter, setSearchFilter ] = useState(emptyFilter);
+//   const [ searchFilter, setSearchFilter ] = useState(emptyFilter);
 
   const updateSearchFilter = (e) => {
     setSearchFilter({
@@ -36,7 +35,7 @@ const Filters = () => {
     .then(response => response.json())
     .then(data => {
         console.log('filtered', data);
-        setFilteredToDoList(data);
+        setFilteredToDoList([...data]);
         fetch("http://localhost:9090/todo/pagination?page=1&size=3",  {
             method: 'GET',
             headers: {
@@ -45,8 +44,8 @@ const Filters = () => {
             }})
             .then(response => response.json())
             .then(data1 => {
-                setPaginatedToDoList(data1);
-                console.log('paginated filtered to dos', data1);
+                setPaginatedToDoList([...data1]);
+                // console.log('paginated filtered to dos', data1);
             })
             .catch(error => console.error('Error:', error));
     })
@@ -60,7 +59,7 @@ const Filters = () => {
             <input 
                 type='text' 
                 name='text' 
-                placeholder='To Do'
+                placeholder='To do'
                 value={searchFilter.text} 
                 onChange={updateSearchFilter} 
                 className='bg-gray-50 border col-start-2 col-end-9 w-11/12 mt-10 mb-5 py-2 px-1 border-gray-300 rounded-md'

@@ -84,7 +84,7 @@ const EditToDoModal = () => {
             
                     <div className="flex items-center justify-between p-5 pb-0  rounded-t dark:border-gray-600">
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                            Update the To Do
+                            Update the to do
                         </h3>
                         <button
                             type="button" 
