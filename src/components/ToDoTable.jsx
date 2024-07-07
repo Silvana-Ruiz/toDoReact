@@ -20,9 +20,17 @@ const ToDoTable = () => {
     currPage,
     } = useToDoContext();
 
+    const createCheckboxDictFalse = (done) => {
+        const dict = {};
+        toDoList.forEach(toDo => {
+            dict[toDo.id] = done;
+        });
+        return dict;
+    }
+
     const [ allChecked, setAllChecked ] = useState(false);
 
-    const [ checkboxes, setCheckboxes ] = useState(Array(toDoList.length).fill(false));
+    const [ checkboxes, setCheckboxes ] = useState(() => createCheckboxDictFalse(false));
 
     useEffect(() => {
         getAllToDos();  
@@ -91,10 +99,10 @@ const ToDoTable = () => {
 
       }
 
-    const checkTaskAsDone = (id, index) => {
+    const checkTaskAsDone = (id) => {
         let url = `http://localhost:9090/todo/${id}/undone`;
         
-        if (!checkboxes[index]) { // The onClick event makes the checkbox checked
+        if (!checkboxes[id]) { // The onClick event makes the checkbox checked
             url = `http://localhost:9090/todo/${id}/done`;
         }
         
@@ -107,10 +115,7 @@ const ToDoTable = () => {
         .then(response => response.json())
         .then(data => {
             setMetrics(data);
-            const updatedCheckboxes = checkboxes.map((checkbox, currInd) =>
-                currInd == index ? !checkboxes[currInd] : checkboxes[currInd]
-              );
-            setCheckboxes(updatedCheckboxes);
+            setCheckboxes({...checkboxes, [id]: !checkboxes[id] });
         })
         .catch(error => console.error('Error:', error));
     }
@@ -143,9 +148,9 @@ const ToDoTable = () => {
         let url = 'http://localhost:9090/todo/allundone'
         if(e.target.checked) {
             url = 'http://localhost:9090/todo/alldone'
-            setCheckboxes(Array(toDoList.length).fill(true));
+            setCheckboxes(() => createCheckboxDictFalse(true));
         } else {
-            setCheckboxes(Array(toDoList.length).fill(false));
+            setCheckboxes(() => createCheckboxDictFalse(false));
         }
         fetch(url, {
             method: 'PUT',
@@ -183,12 +188,12 @@ const ToDoTable = () => {
                 <div>Actions</div>
             </div>
             <div >
-                {(paginatedToDoList.length != 0) ? ( paginatedToDoList.map((toDoRecord, index) => (
+                {(paginatedToDoList.length != 0) ? ( paginatedToDoList.map((toDoRecord) => (
                     <div className='grid grid-cols-5 py-2 border-b-2' key={toDoRecord.id}>
                         <input 
                             type='checkbox' 
-                            onClick={() => checkTaskAsDone(toDoRecord.id, index + (currPage - 1) * 3)}
-                            checked={checkboxes[index + (currPage - 1) * 3]}
+                            onClick={() => checkTaskAsDone(toDoRecord.id)}
+                            checked={checkboxes[toDoRecord.id]}
                             className='accent-customviolet w-5 justify-self-center'
                         />
                         <div>{toDoRecord.text}</div>
