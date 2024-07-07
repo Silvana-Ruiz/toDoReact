@@ -38,31 +38,25 @@ const ToDoProvider = ( {children} ) => {
         const numItemsPage = 3;
         console.log('toDoList from Pagination', toDoList)
         let numPages = Math.floor(toDoList.length / numItemsPage);
-        if(numPages % numItemsPage != 0 || toDoList.length / numItemsPage > 0) {
+        if(toDoList.length % numItemsPage != 0 || numPages == 0) {
             numPages += 1;
         }
         setStateNumPages(numPages)
         console.log("numPages", numPages);
         console.log("stateNumPages", stateNumPages);
-        // Store in array numbers for pagination menu
-   
-        // for (let i = 1; i <= numPages; i++) {
-        //     setPageNumbers([...pageNumbers, i]);
-        // }
-
-        // setPageNumbers([...Array(numPages).keys()])
-        
-        // console.log('pageNumbers', pageNumbers);
-        
+        if(stateNumPages < currPage) {
+            setCurrPage(stateNumPages);
+        }
   
     }
 
    
-    const onClickChangePage = (page) => {
+    const onClickChangePage = () => {
+        // If we delete the only element in the currPage, currPage is larger than the total number of pages
+        
         if(!toDoList.length) {
             return;
         }
-        setCurrPage(page);
         const { text, priority, state } = searchFilter;
         fetch(`http://localhost:9090/todo?text=${text}&state=${state}&priority=${priority}`,  {
             method: 'GET',
@@ -74,7 +68,7 @@ const ToDoProvider = ( {children} ) => {
         .then(data => {
             console.log('filtered', data);
             setFilteredToDoList([...data]);
-            fetch(`http://localhost:9090/todo/pagination?page=${page}&size=3`,  {
+            fetch(`http://localhost:9090/todo/pagination?page=${currPage}&size=3`,  {
                 method: 'GET',
                 headers: {
                 Accept: 'application/json',
@@ -88,20 +82,6 @@ const ToDoProvider = ( {children} ) => {
                 .catch(error => console.error('Error:', error));
         })
         .catch(error => console.error('Error:', error));
-
-        
-        // fetch(`http://localhost:9090/todo/pagination?page=${page}&size=3`,  {
-        //     method: 'GET',
-        //     headers: {
-        //       Accept: 'application/json',
-        //       'Content-Type': 'application/json',
-        //     }})
-        //     .then(response => response.json())
-        //     .then(data => {
-        //         setPaginatedToDoList(data);
-        //         console.log('paginated to dos', data);
-        //     })
-        //     .catch(error => console.error('Error:', error));
     }
 
 
@@ -127,6 +107,7 @@ const ToDoProvider = ( {children} ) => {
                 calculatePages,
                 onClickChangePage,
                 currPage,
+                setCurrPage,
                 pageNumbers,
                 setPageNumbers,
                 stateNumPages,

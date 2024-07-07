@@ -12,15 +12,17 @@ const ToDoTable = () => {
     setMetrics,
     showEditModal,
     setShowEditModal,
-    editId,
     setEditId,
     paginatedToDoList,
-    setFilteredToDoList,
     setPaginatedToDoList,
     calculatePages, 
     onClickChangePage, 
     currPage,
     } = useToDoContext();
+
+    const [ allChecked, setAllChecked ] = useState(false);
+
+    const [ checkboxes, setCheckboxes ] = useState(Array(toDoList.length).fill(false));
 
     useEffect(() => {
         getAllToDos();  
@@ -30,10 +32,14 @@ const ToDoTable = () => {
       useEffect(() => {
         
         calculatePages();
-        onClickChangePage(currPage);
+        onClickChangePage();
         
     }, [toDoList]);
 
+    useEffect(() => {
+        onClickChangePage();
+    }, [currPage]);
+ 
     const paginateFilteredToDos = () => {
         fetch("http://localhost:9090/todo/pagination?page=1&size=3",  {
             method: 'GET',
@@ -63,10 +69,6 @@ const ToDoTable = () => {
         .then(response => response.json())
         .then(data => {
             console.log('filtered', data);
-            // setFilteredToDoList(data);
-            // paginateFilteredToDos();
-
-           
         })
         .catch(error => console.error('Error:', error));
 
@@ -89,11 +91,13 @@ const ToDoTable = () => {
 
       }
 
-    const checkTaskAsDone = (e, id) => {
+    const checkTaskAsDone = (id, index) => {
         let url = `http://localhost:9090/todo/${id}/undone`;
-        if (e.target.checked) { // The onClick event makes the checkbox checked
+        
+        if (!checkboxes[index]) { // The onClick event makes the checkbox checked
             url = `http://localhost:9090/todo/${id}/done`;
         }
+        
         fetch(url,  {
             method: 'PUT',
             headers: {
@@ -103,6 +107,10 @@ const ToDoTable = () => {
         .then(response => response.json())
         .then(data => {
             setMetrics(data);
+            const updatedCheckboxes = checkboxes.map((checkbox, currInd) =>
+                currInd == index ? !checkboxes[currInd] : checkboxes[currInd]
+              );
+            setCheckboxes(updatedCheckboxes);
         })
         .catch(error => console.error('Error:', error));
     }
@@ -130,11 +138,37 @@ const ToDoTable = () => {
         setEditId(id);
     }
 
+    const onClickMainCheckbox = (e) => {
+        setAllChecked(!allChecked);
+        let url = 'http://localhost:9090/todo/allundone'
+        if(e.target.checked) {
+            url = 'http://localhost:9090/todo/alldone'
+            setCheckboxes(Array(toDoList.length).fill(true));
+        } else {
+            setCheckboxes(Array(toDoList.length).fill(false));
+        }
+        fetch(url, {
+            method: 'PUT',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            }})
+            .then(response => response.json())
+            .then(data => {
+                setMetrics(data);
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
     return (
         <div className='my-10 border bg-white rounded-2xl px-12 py-10 shadow-md'>
             {showEditModal && <EditToDoModal/>}
             <div className='grid grid-cols-5 border-b-2 py-2  bg-custompurple rounded-t-md'>
-                <input type='checkbox' className='accent-customviolet w-5 justify-self-center' />
+                <input 
+                    type='checkbox' 
+                    className='accent-customviolet w-5 justify-self-center' 
+                    onClick={onClickMainCheckbox}
+                />
                 <div>Name</div>
                 <div className='flex'>
                     <p>Priority</p>
@@ -149,14 +183,13 @@ const ToDoTable = () => {
                 <div>Actions</div>
             </div>
             <div >
-                {(paginatedToDoList.length != 0) ? ( paginatedToDoList.map(toDoRecord => (
+                {(paginatedToDoList.length != 0) ? ( paginatedToDoList.map((toDoRecord, index) => (
                     <div className='grid grid-cols-5 py-2 border-b-2' key={toDoRecord.id}>
                         <input 
                             type='checkbox' 
-                            onClick={(e) => checkTaskAsDone(e, toDoRecord.id)}
-                            className='accent-customviolet w-5 justify-self-center
-
-' 
+                            onClick={() => checkTaskAsDone(toDoRecord.id, index + (currPage - 1) * 3)}
+                            checked={checkboxes[index + (currPage - 1) * 3]}
+                            className='accent-customviolet w-5 justify-self-center'
                         />
                         <div>{toDoRecord.text}</div>
                         <div>{toDoRecord.priority}</div>

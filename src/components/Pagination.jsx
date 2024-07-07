@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import useToDoContext from '../hooks/useToDoContext';
 
 const Pagination = () => {
-    const { toDoList, paginatedToDoList, setPaginatedToDoList, filteredToDoList, calculatePages, onClickChangePage, currPage, pageNumbers, setPageNumbers, stateNumPages} = useToDoContext();
+    const { toDoList, paginatedToDoList, setPaginatedToDoList, filteredToDoList, calculatePages, onClickChangePage, currPage, setCurrPage, pageNumbers, setPageNumbers, stateNumPages} = useToDoContext();
     // const [ pageNumbers, setPageNumbers ] = useState([]);
     // const [ currPage, setCurrPage ] = useState(-1);
 
@@ -91,7 +91,7 @@ const Pagination = () => {
         <>
         <div className='flex justify-center py-2 gap-4'>
             {pageNumbers.length != 0 && pageNumbers.map((pageNum) => (
-                <button key={pageNum} className={`px-1 ${pageNum == currPage && 'bg-customviolet rounded-sm text-white'}`} onClick={() => onClickChangePage(pageNum )}>{pageNum }</button>
+                <button key={pageNum} className={`px-1 ${pageNum == currPage && 'bg-customviolet rounded-sm text-white'}`} onClick={() => setCurrPage(pageNum)}>{pageNum }</button>
             ))}
         </div>
         </>
