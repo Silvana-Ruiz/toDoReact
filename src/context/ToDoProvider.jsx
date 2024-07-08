@@ -26,6 +26,7 @@ const ToDoProvider = ( {children} ) => {
     const [ currPage, setCurrPage ] = useState(-1);
     const [ stateNumPages, setStateNumPages] = useState(0);
     const [ searchFilter, setSearchFilter ] = useState(emptyFilter);
+    
 
 
     const openCloseCreationModal = (e) => {

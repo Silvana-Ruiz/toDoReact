@@ -17,7 +17,8 @@ const ToDoTable = () => {
     setPaginatedToDoList,
     calculatePages, 
     onClickChangePage, 
-    currPage
+    currPage,
+    setFilteredToDoList
     } = useToDoContext();
 
     const createCheckboxDictFalse = (done) => {
@@ -29,7 +30,7 @@ const ToDoTable = () => {
     }
 
     const defaultSortingOptions = {
-        priortiy: '',
+        priority: '',
         dueDate: ''
     }
 
@@ -45,10 +46,8 @@ const ToDoTable = () => {
     }, []);
 
       useEffect(() => {
-        
         calculatePages();
         onClickChangePage();
-        
     }, [toDoList]);
 
     useEffect(() => {
@@ -177,8 +176,8 @@ const ToDoTable = () => {
     }
 
     const sortToDos = () => {
-        const { priortiy, dueDate } = sortingOptions;
-        fetch(`http://localhost:9090/todo/sort?priorityorder=${priortiy}&duedateorder=${dueDate}`, {
+        const { priority, dueDate } = sortingOptions;
+        fetch(`http://localhost:9090/todo/sort?priorityorder=${priority}&duedateorder=${dueDate}`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -187,10 +186,24 @@ const ToDoTable = () => {
             .then(response => response.json())
             .then(data => {
                 setToDoList(data);
+                console.log("sorted todo", data);
+
+            //     setFilteredToDoList([...data]);
+            // fetch(`http://localhost:9090/todo/pagination?page=${currPage}&size=3`,  {
+            //     method: 'GET',
+            //     headers: {
+            //     Accept: 'application/json',
+            //     'Content-Type': 'application/json',
+            //     }})
+            //     .then(response => response.json())
+            //     .then(data1 => {
+            //         setPaginatedToDoList([...data1]);
+            //         console.log('paginated onClickChangePage', data1);
+            //     })
+            //     .catch(error => console.error('Error:', error));
             })
 
             .catch(error => console.error('Error:', error));
-        console.log('sortedItems', toDoList);
       };
 
       const onClickSorting = (e, val) => {
