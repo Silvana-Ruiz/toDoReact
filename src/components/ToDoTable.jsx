@@ -93,7 +93,7 @@ const ToDoTable = () => {
 
       }
 
-      const getAllToDos = () => {
+    const getAllToDos = () => {
 
         fetch('http://localhost:9090/todo?text=&state=All&priority=All',  {
             method: 'GET',
@@ -108,7 +108,7 @@ const ToDoTable = () => {
         })
         .catch(error => console.error('Error:', error));
 
-      }
+    }
 
     const checkTaskAsDone = (id) => {
         let url = `http://localhost:9090/todo/${id}/undone`;
@@ -258,5 +258,6 @@ const ToDoTable = () => {
         </div>
     )
 }
+
 
 export default ToDoTable;

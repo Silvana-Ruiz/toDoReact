@@ -56,10 +56,7 @@ const ToDoProvider = ( {children} ) => {
 
    
     const onClickChangePage = () => {
-
-        if(!toDoList.length) {
-            return;
-        }
+    
         const { text, priority, state } = searchFilter;
         fetch(`http://localhost:9090/todo?text=${text}&state=${state}&priority=${priority}`,  {
             method: 'GET',
