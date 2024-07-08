@@ -9,7 +9,6 @@ import CreateTodoModal from './components/CreateTodoModal';
 
 function App() {
   return (
-    
       <ToDoProvider>
         <div className='m-12'>
           <Filters />
@@ -18,8 +17,6 @@ function App() {
           <Metrics />
         </div>
     </ToDoProvider>
-    
-    
   )
 }
 
