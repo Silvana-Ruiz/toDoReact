@@ -5,17 +5,11 @@ import useToDoContext from '../hooks/useToDoContext';
 
 const Filters = () => {
     const { 
-        toDoList,
-        setToDoList,
-        filteredToDoList,
         setFilteredToDoList,
-        paginatedToDoList,
         setPaginatedToDoList,
         searchFilter,
          setSearchFilter
     } = useToDoContext();
-
-//   const [ searchFilter, setSearchFilter ] = useState(emptyFilter);
 
   const updateSearchFilter = (e) => {
     setSearchFilter({
@@ -45,7 +39,6 @@ const Filters = () => {
             .then(response => response.json())
             .then(data1 => {
                 setPaginatedToDoList([...data1]);
-                // console.log('paginated filtered to dos', data1);
             })
             .catch(error => console.error('Error:', error));
     })
@@ -65,8 +58,6 @@ const Filters = () => {
                 className='bg-gray-50 border col-start-2 col-end-9 w-11/12 mt-10 mb-5 py-2 px-1 border-gray-300 rounded-md'
             />
       
-
-        
             <label className='text-left row-start-2 ml-12 mb-5'>Priority</label>
            
                 <select 

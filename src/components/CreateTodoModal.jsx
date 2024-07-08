@@ -10,12 +10,7 @@ const CreateTodoModal = () => {
   };
   const [ newToDo, setNewToDo ] = useState(emptyToDo);
   const [ error, setError] = useState("");
-//   useEffect(() => {
-        
-//     calculatePages();
-//     onClickChangePage(currPage);
-    
-// }, [toDoList]);
+
 
   const onClickUpdateToDo = (e) => {
     setNewToDo({
@@ -50,8 +45,7 @@ const CreateTodoModal = () => {
         
         const data = await response.json();
         setToDoList([...toDoList, data]);
-        // calculatePages();
-        // onClickChangePage(1);
+
     } catch (error) {
         console.error('Error:', error);
     }

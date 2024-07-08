@@ -3,12 +3,10 @@ import useToDoContext from '../hooks/useToDoContext';
 
 const EditToDoModal = () => {
     const { toDoList, setToDoList, setShowEditModal, showEditModal, editId} = useToDoContext();
-    console.log('desde edito modal', editId)
 
     
 
     useEffect(() => {
-        console.log(editId);
         retrieveToDo(editId);
     }, []);
   const emptyToDo = {

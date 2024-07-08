@@ -34,16 +34,20 @@ const ToDoProvider = ( {children} ) => {
     }
 
     const calculatePages = () => {
-
+        let pageList = [];
+        if(searchFilter.text || searchFilter.priority != 'All' || searchFilter.state != 'All') {
+            pageList = filteredToDoList;
+        } else {
+            pageList = toDoList;
+        }
         const numItemsPage = 3;
-        console.log('toDoList from Pagination', toDoList)
-        let numPages = Math.floor(toDoList.length / numItemsPage);
-        if(toDoList.length % numItemsPage != 0 || numPages == 0) {
+    
+        let numPages = Math.floor(pageList.length / numItemsPage);
+        if(pageList.length % numItemsPage != 0 || numPages == 0) {
             numPages += 1;
         }
         setStateNumPages(numPages)
-        console.log("numPages", numPages);
-        console.log("stateNumPages", stateNumPages);
+
         if(stateNumPages < currPage) {
             setCurrPage(stateNumPages);
         }
@@ -52,8 +56,7 @@ const ToDoProvider = ( {children} ) => {
 
    
     const onClickChangePage = () => {
-        // If we delete the only element in the currPage, currPage is larger than the total number of pages
-        
+
         if(!toDoList.length) {
             return;
         }
@@ -66,7 +69,7 @@ const ToDoProvider = ( {children} ) => {
             }})
         .then(response => response.json())
         .then(data => {
-            console.log('filtered', data);
+            console.log('filtered from onClickChangePage', data);
             setFilteredToDoList([...data]);
             fetch(`http://localhost:9090/todo/pagination?page=${currPage}&size=3`,  {
                 method: 'GET',
@@ -77,7 +80,7 @@ const ToDoProvider = ( {children} ) => {
                 .then(response => response.json())
                 .then(data1 => {
                     setPaginatedToDoList([...data1]);
-                    console.log('paginated to dos', data1);
+                    console.log('paginated onClickChangePage', data1);
                 })
                 .catch(error => console.error('Error:', error));
         })

@@ -17,7 +17,7 @@ const ToDoTable = () => {
     setPaginatedToDoList,
     calculatePages, 
     onClickChangePage, 
-    currPage,
+    currPage
     } = useToDoContext();
 
     const createCheckboxDictFalse = (done) => {
@@ -28,13 +28,20 @@ const ToDoTable = () => {
         return dict;
     }
 
+    const defaultSortingOptions = {
+        priortiy: '',
+        dueDate: ''
+    }
+
     const [ allChecked, setAllChecked ] = useState(false);
 
     const [ checkboxes, setCheckboxes ] = useState(() => createCheckboxDictFalse(false));
 
+    const [sortingOptions, setSortingOptions] = useState(defaultSortingOptions);
+
     useEffect(() => {
         getAllToDos();  
-        getFilteredToDos();    
+        getFilteredToDos();   // Initialize filtered to do list
     }, []);
 
       useEffect(() => {
@@ -47,6 +54,10 @@ const ToDoTable = () => {
     useEffect(() => {
         onClickChangePage();
     }, [currPage]);
+
+    useEffect(() => {
+        sortToDos();
+    }, [sortingOptions]);
  
     const paginateFilteredToDos = () => {
         fetch("http://localhost:9090/todo/pagination?page=1&size=3",  {
@@ -165,6 +176,30 @@ const ToDoTable = () => {
             .catch(error => console.error('Error:', error));
     }
 
+    const sortToDos = () => {
+        const { priortiy, dueDate } = sortingOptions;
+        fetch(`http://localhost:9090/todo/sort?priorityorder=${priortiy}&duedateorder=${dueDate}`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            }})
+            .then(response => response.json())
+            .then(data => {
+                setToDoList(data);
+            })
+
+            .catch(error => console.error('Error:', error));
+        console.log('sortedItems', toDoList);
+      };
+
+      const onClickSorting = (e, val) => {
+        setSortingOptions({
+            ...sortingOptions,
+            [e.target.name]: val
+        });
+      }
+
     return (
         <div className='my-10 border bg-white rounded-2xl px-12 py-10 shadow-md'>
             {showEditModal && <EditToDoModal/>}
@@ -177,13 +212,13 @@ const ToDoTable = () => {
                 <div>Name</div>
                 <div className='flex'>
                     <p>Priority</p>
-                    <button>{'<'}</button>
-                    <button>{'>'}</button>
+                    <button name='priority' onClick={(e) => onClickSorting(e, 'ASC')}>{'<'}</button>
+                    <button name='priority' onClick={(e) => onClickSorting(e, 'DSC')}>{'>'}</button>
                 </div>
                 <div className='flex'>
                     <p>Due Date</p>
-                    <button>{'<'}</button>
-                    <button>{'>'}</button>
+                    <button name='dueDate' onClick={(e) => onClickSorting(e, 'ASC')}>{'<'}</button>
+                    <button name='dueDate' onClick={(e) => onClickSorting(e, 'DSC')}>{'>'}</button>
                 </div>
                 <div>Actions</div>
             </div>
