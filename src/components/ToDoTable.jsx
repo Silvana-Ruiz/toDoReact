@@ -18,7 +18,9 @@ const ToDoTable = () => {
     calculatePages, 
     onClickChangePage, 
     currPage,
-    setFilteredToDoList
+    setFilteredToDoList,
+    sortingOptions,
+    setSortingOptions
     } = useToDoContext();
 
     const createCheckboxDictFalse = (done) => {
@@ -29,16 +31,13 @@ const ToDoTable = () => {
         return dict;
     }
 
-    const defaultSortingOptions = {
-        priority: '',
-        dueDate: ''
-    }
+    
 
     const [ allChecked, setAllChecked ] = useState(false);
 
     const [ checkboxes, setCheckboxes ] = useState(() => createCheckboxDictFalse(false));
 
-    const [sortingOptions, setSortingOptions] = useState(defaultSortingOptions);
+    
 
     useEffect(() => {
         getAllToDos();  
