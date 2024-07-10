@@ -58,15 +58,15 @@ const ToDoTable = () => {
         sortToDos();
     }, [sortingOptions]);
 
-    useEffect(() => {
-       if (paginatedToDoList.length == 0) {
-        calculatePages();
-        onClickChangePage();
-       }
-    }, [paginatedToDoList])
+    // useEffect(() => {
+    //    if (paginatedToDoList.length == 0) {
+    //     calculatePages();
+    //     onClickChangePage();
+    //    }
+    // }, [paginatedToDoList])
  
     const paginateFilteredToDos = () => {
-        fetch("http://localhost:9090/todo/pagination?page=1&size=3",  {
+        fetch("http://localhost:9090/todo/pagination?page=1&size=10",  {
             method: 'GET',
             headers: {
               Accept: 'application/json',
@@ -213,12 +213,36 @@ const ToDoTable = () => {
             .catch(error => console.error('Error:', error));
       };
 
-      const onClickSorting = (e, val) => {
-        setSortingOptions({
-            ...sortingOptions,
-            [e.target.name]: val
-        });
-      }
+    const onClickSorting = (e, val) => {
+    setSortingOptions({
+        ...sortingOptions,
+        [e.target.name]: val
+    });
+    };
+
+  
+
+    const getToDoBackgroundColor = (dueDate) => {
+        // if there is no dueDate
+        if (!dueDate) {
+            return '';
+        }
+        const currentDate = new Date();
+        const period = new Date(dueDate).getTime() - currentDate.getTime();
+        const days = Math.ceil(period / (1000 * 3600 * 24)); 
+
+        if (days < 0 && days != -1) {
+            return 'bg-red-400';
+        } else if (days <= 7) {
+            return 'bg-red-300';
+        } else if (days <= 14) {
+            return 'bg-yellow-300';
+        } else {
+            return 'bg-green-300';
+        }
+    };
+
+
 
     return (
         <div className='my-10 border bg-white rounded-2xl px-12 py-10 shadow-md'>
@@ -251,9 +275,12 @@ const ToDoTable = () => {
                             checked={checkboxes[toDoRecord.id]}
                             className='accent-customviolet w-5 justify-self-center'
                         />
-                        <div>{toDoRecord.text}</div>
+                        <div className={`${checkboxes[toDoRecord.id] ? 'line-through' : ''}`}>{toDoRecord.text}</div>
                         <div>{toDoRecord.priority}</div>
-                        <div>{toDoRecord.dueDate}</div>
+                      
+                        <div className='flex'>
+                            <div className={`p-1 rounded-md ${!checkboxes[toDoRecord.id] ? getToDoBackgroundColor(toDoRecord.dueDate) : ''}`}>{toDoRecord.dueDate}</div>
+                        </div>
                         <div className='flex gap-2'>
                             <button 
                                 onClick={(e) => updateToDo(e, toDoRecord.id)}

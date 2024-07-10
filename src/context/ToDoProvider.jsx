@@ -41,7 +41,7 @@ const ToDoProvider = ( {children} ) => {
         } else {
             pageList = toDoList;
         }
-        const numItemsPage = 3;
+        const numItemsPage = 10;
     
         let numPages = Math.floor(pageList.length / numItemsPage);
         if(pageList.length % numItemsPage != 0 || numPages == 0) {
@@ -69,7 +69,7 @@ const ToDoProvider = ( {children} ) => {
         .then(data => {
             console.log('filtered from onClickChangePage', data);
             setFilteredToDoList([...data]);
-            fetch(`http://localhost:9090/todo/pagination?page=${currPage}&size=3`,  {
+            fetch(`http://localhost:9090/todo/pagination?page=${currPage}&size=10`,  {
                 method: 'GET',
                 headers: {
                 Accept: 'application/json',

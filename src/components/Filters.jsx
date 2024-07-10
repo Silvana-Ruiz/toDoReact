@@ -38,7 +38,7 @@ const Filters = () => {
     .then(data => {
         console.log('filtered', data);
         setFilteredToDoList([...data]);
-        fetch("http://localhost:9090/todo/pagination?page=1&size=3",  {
+        fetch("http://localhost:9090/todo/pagination?page=1&size=10",  {
             method: 'GET',
             headers: {
               Accept: 'application/json',
