@@ -57,6 +57,13 @@ const ToDoTable = () => {
     useEffect(() => {
         sortToDos();
     }, [sortingOptions]);
+
+    useEffect(() => {
+       if (paginatedToDoList.length == 0) {
+        calculatePages();
+        onClickChangePage();
+       }
+    }, [paginatedToDoList])
  
     const paginateFilteredToDos = () => {
         fetch("http://localhost:9090/todo/pagination?page=1&size=3",  {

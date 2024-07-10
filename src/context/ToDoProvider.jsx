@@ -113,7 +113,8 @@ const ToDoProvider = ( {children} ) => {
                 setPageNumbers,
                 stateNumPages,
                 searchFilter,
-                 setSearchFilter
+                setSearchFilter,
+                emptyFilter
             }} // Object
         >
             {children}

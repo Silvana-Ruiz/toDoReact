@@ -8,7 +8,8 @@ const Filters = () => {
         setFilteredToDoList,
         setPaginatedToDoList,
         searchFilter,
-         setSearchFilter
+        setSearchFilter,
+        emptyFilter
     } = useToDoContext();
 
   const updateSearchFilter = (e) => {
@@ -17,6 +18,13 @@ const Filters = () => {
         [e.target.name]: e.target.value
     });
   }
+
+//   const clearFilters = () => {
+//     setSearchFilter(emptyFilter)
+//     .then(() => {
+//         getFilteredToDos();
+//     })
+//   }
 
   const getFilteredToDos =  () => {
     const { text, priority, state } = searchFilter;
@@ -86,6 +94,12 @@ const Filters = () => {
                 <option value='Undone'>Undone</option>
             </select>
      
+        {/* <button 
+        className='row-start-3 col-start-6 col-end-7 w-36 ml-20 mb-5 py-1 text-white bg-customviolet rounded-md active:bg-activebutton shadow-md font-medium'
+        onClick={clearFilters}
+    >
+        Clear
+        </button> */}
         <button 
             className='row-start-3 col-start-7 col-end-9 w-36 ml-20 mb-5 py-1 text-white bg-customviolet rounded-md active:bg-activebutton shadow-md font-medium'
             onClick={getFilteredToDos}
