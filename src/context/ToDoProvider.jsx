@@ -1,4 +1,4 @@
-import { useState, createContext } from 'react';
+import { useState, createContext, useEffect } from 'react';
 
 const ToDoContext = createContext();
 
@@ -13,6 +13,10 @@ const emptyFilter = {
     priority: 'All',
     state: 'All'
 };
+const defaultSortingOptions = {
+    priority: '',
+    dueDate: ''
+}
 
 const ToDoProvider = ( {children} ) => {
     const [toDoList, setToDoList] = useState([]);
@@ -26,8 +30,8 @@ const ToDoProvider = ( {children} ) => {
     const [ currPage, setCurrPage ] = useState(-1);
     const [ stateNumPages, setStateNumPages] = useState(0);
     const [ searchFilter, setSearchFilter ] = useState(emptyFilter);
-
-
+    const [sortingOptions, setSortingOptions] = useState(defaultSortingOptions);
+    
     const openCloseCreationModal = (e) => {
         e.preventDefault();
         setShowCreationModal(!showCreationModal);
@@ -40,7 +44,7 @@ const ToDoProvider = ( {children} ) => {
         } else {
             pageList = toDoList;
         }
-        const numItemsPage = 3;
+        const numItemsPage = 10;
     
         let numPages = Math.floor(pageList.length / numItemsPage);
         if(pageList.length % numItemsPage != 0 || numPages == 0) {
@@ -48,15 +52,35 @@ const ToDoProvider = ( {children} ) => {
         }
         setStateNumPages(numPages)
 
-        if(stateNumPages < currPage) {
-            setCurrPage(stateNumPages);
+        if(numPages < currPage) {
+            console.log('stateNumPages < currPage')
+            console.log('stateNumPages', stateNumPages)
+            console.log('currPage', currPage)
+            setCurrPage(numPages);
         }
   
     }
 
    
     const onClickChangePage = () => {
-    
+        console.log('sortingOptions', sortingOptions);
+        console.log('defaultSortingOptions', defaultSortingOptions);
+        if(sortingOptions != defaultSortingOptions) {
+
+            fetch(`http://localhost:9090/todo/pagination?page=${currPage}&size=10`,  {
+                method: 'GET',
+                headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                }})
+                .then(response => response.json())
+                .then(data1 => {
+                    setPaginatedToDoList([...data1]);
+                    console.log('paginated onClickChangePage', data1);
+                })
+                .catch(error => console.error('Error:', error));
+                return;
+        }
         const { text, priority, state } = searchFilter;
         fetch(`http://localhost:9090/todo?text=${text}&state=${state}&priority=${priority}`,  {
             method: 'GET',
@@ -68,7 +92,7 @@ const ToDoProvider = ( {children} ) => {
         .then(data => {
             console.log('filtered from onClickChangePage', data);
             setFilteredToDoList([...data]);
-            fetch(`http://localhost:9090/todo/pagination?page=${currPage}&size=3`,  {
+            fetch(`http://localhost:9090/todo/pagination?page=${currPage}&size=10`,  {
                 method: 'GET',
                 headers: {
                 Accept: 'application/json',
@@ -78,6 +102,9 @@ const ToDoProvider = ( {children} ) => {
                 .then(data1 => {
                     setPaginatedToDoList([...data1]);
                     console.log('paginated onClickChangePage', data1);
+                    // if(data1.length() == 0) {
+                    //     setCurrPage(currPage > 1? currPage - 1: 0)
+                    // }
                 })
                 .catch(error => console.error('Error:', error));
         })
@@ -112,7 +139,11 @@ const ToDoProvider = ( {children} ) => {
                 setPageNumbers,
                 stateNumPages,
                 searchFilter,
-                 setSearchFilter
+                setSearchFilter,
+                emptyFilter,
+                sortingOptions, 
+                setSortingOptions,
+                defaultSortingOptions
             }} // Object
         >
             {children}

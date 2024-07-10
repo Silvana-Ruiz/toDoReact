@@ -8,7 +8,10 @@ const Filters = () => {
         setFilteredToDoList,
         setPaginatedToDoList,
         searchFilter,
-         setSearchFilter
+        setSearchFilter,
+        emptyFilter,
+        setSortingOptions,
+        defaultSortingOptions
     } = useToDoContext();
 
   const updateSearchFilter = (e) => {
@@ -18,7 +21,16 @@ const Filters = () => {
     });
   }
 
+//   const clearFilters = () => {
+//     setSearchFilter(emptyFilter)
+//     .then(() => {
+//         getFilteredToDos();
+//     })
+//   }
+
   const getFilteredToDos =  () => {
+    setSortingOptions(defaultSortingOptions);
+
     const { text, priority, state } = searchFilter;
     fetch(`http://localhost:9090/todo?text=${text}&state=${state}&priority=${priority}`,  {
         method: 'GET',
@@ -30,7 +42,7 @@ const Filters = () => {
     .then(data => {
         console.log('filtered', data);
         setFilteredToDoList([...data]);
-        fetch("http://localhost:9090/todo/pagination?page=1&size=3",  {
+        fetch("http://localhost:9090/todo/pagination?page=1&size=10",  {
             method: 'GET',
             headers: {
               Accept: 'application/json',
@@ -86,6 +98,12 @@ const Filters = () => {
                 <option value='Undone'>Undone</option>
             </select>
      
+        {/* <button 
+        className='row-start-3 col-start-6 col-end-7 w-36 ml-20 mb-5 py-1 text-white bg-customviolet rounded-md active:bg-activebutton shadow-md font-medium'
+        onClick={clearFilters}
+    >
+        Clear
+        </button> */}
         <button 
             className='row-start-3 col-start-7 col-end-9 w-36 ml-20 mb-5 py-1 text-white bg-customviolet rounded-md active:bg-activebutton shadow-md font-medium'
             onClick={getFilteredToDos}
