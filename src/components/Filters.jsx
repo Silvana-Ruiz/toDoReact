@@ -9,7 +9,9 @@ const Filters = () => {
         setPaginatedToDoList,
         searchFilter,
         setSearchFilter,
-        emptyFilter
+        emptyFilter,
+        setSortingOptions,
+        defaultSortingOptions
     } = useToDoContext();
 
   const updateSearchFilter = (e) => {
@@ -27,6 +29,8 @@ const Filters = () => {
 //   }
 
   const getFilteredToDos =  () => {
+    setSortingOptions(defaultSortingOptions);
+
     const { text, priority, state } = searchFilter;
     fetch(`http://localhost:9090/todo?text=${text}&state=${state}&priority=${priority}`,  {
         method: 'GET',

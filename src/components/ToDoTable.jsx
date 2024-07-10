@@ -18,7 +18,9 @@ const ToDoTable = () => {
     calculatePages, 
     onClickChangePage, 
     currPage,
-    setFilteredToDoList
+    setFilteredToDoList,
+    sortingOptions,
+    setSortingOptions
     } = useToDoContext();
 
     const createCheckboxDictFalse = (done) => {
@@ -29,16 +31,13 @@ const ToDoTable = () => {
         return dict;
     }
 
-    const defaultSortingOptions = {
-        priority: '',
-        dueDate: ''
-    }
+    
 
     const [ allChecked, setAllChecked ] = useState(false);
 
     const [ checkboxes, setCheckboxes ] = useState(() => createCheckboxDictFalse(false));
 
-    const [sortingOptions, setSortingOptions] = useState(defaultSortingOptions);
+    
 
     useEffect(() => {
         getAllToDos();  
@@ -58,12 +57,6 @@ const ToDoTable = () => {
         sortToDos();
     }, [sortingOptions]);
 
-    // useEffect(() => {
-    //    if (paginatedToDoList.length == 0) {
-    //     calculatePages();
-    //     onClickChangePage();
-    //    }
-    // }, [paginatedToDoList])
  
     const paginateFilteredToDos = () => {
         fetch("http://localhost:9090/todo/pagination?page=1&size=10",  {
@@ -84,7 +77,6 @@ const ToDoTable = () => {
     }
 
     const getFilteredToDos = () => {
-
         fetch('http://localhost:9090/todo?text=&state=All&priority=All',  {
             method: 'GET',
             headers: {
@@ -100,7 +92,6 @@ const ToDoTable = () => {
       }
 
     const getAllToDos = () => {
-
         fetch('http://localhost:9090/todo?text=&state=All&priority=All',  {
             method: 'GET',
             headers: {
@@ -149,8 +140,6 @@ const ToDoTable = () => {
         .then(response => response.json())
         .then(data => {
             setToDoList(data);
-            // calculatePages();
-            // onClickChangePage(1);
         })
         .catch(error => console.error('Error:', error));
     }
@@ -194,20 +183,6 @@ const ToDoTable = () => {
             .then(data => {
                 setToDoList(data);
                 console.log("sorted todo", data);
-
-            //     setFilteredToDoList([...data]);
-            // fetch(`http://localhost:9090/todo/pagination?page=${currPage}&size=3`,  {
-            //     method: 'GET',
-            //     headers: {
-            //     Accept: 'application/json',
-            //     'Content-Type': 'application/json',
-            //     }})
-            //     .then(response => response.json())
-            //     .then(data1 => {
-            //         setPaginatedToDoList([...data1]);
-            //         console.log('paginated onClickChangePage', data1);
-            //     })
-            //     .catch(error => console.error('Error:', error));
             })
 
             .catch(error => console.error('Error:', error));
@@ -221,7 +196,6 @@ const ToDoTable = () => {
     };
 
   
-
     const getToDoBackgroundColor = (dueDate) => {
         // if there is no dueDate
         if (!dueDate) {
@@ -241,7 +215,6 @@ const ToDoTable = () => {
             return 'bg-green-300';
         }
     };
-
 
 
     return (
