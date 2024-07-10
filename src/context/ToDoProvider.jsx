@@ -1,4 +1,4 @@
-import { useState, createContext } from 'react';
+import { useState, createContext, useEffect } from 'react';
 
 const ToDoContext = createContext();
 
@@ -32,8 +32,6 @@ const ToDoProvider = ( {children} ) => {
     const [ searchFilter, setSearchFilter ] = useState(emptyFilter);
     const [sortingOptions, setSortingOptions] = useState(defaultSortingOptions);
     
-
-
     const openCloseCreationModal = (e) => {
         e.preventDefault();
         setShowCreationModal(!showCreationModal);
@@ -54,8 +52,11 @@ const ToDoProvider = ( {children} ) => {
         }
         setStateNumPages(numPages)
 
-        if(stateNumPages < currPage) {
-            setCurrPage(stateNumPages);
+        if(numPages < currPage) {
+            console.log('stateNumPages < currPage')
+            console.log('stateNumPages', stateNumPages)
+            console.log('currPage', currPage)
+            setCurrPage(numPages);
         }
   
     }
@@ -101,6 +102,9 @@ const ToDoProvider = ( {children} ) => {
                 .then(data1 => {
                     setPaginatedToDoList([...data1]);
                     console.log('paginated onClickChangePage', data1);
+                    // if(data1.length() == 0) {
+                    //     setCurrPage(currPage > 1? currPage - 1: 0)
+                    // }
                 })
                 .catch(error => console.error('Error:', error));
         })
